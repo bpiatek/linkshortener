@@ -9,13 +9,13 @@ import spock.lang.Specification
  * Created by Bartosz Piatek on 16/10/2023
  */
 @SpringBootTest
-class LinkShortenerApplicationTest extends Specification {
+class LinkShortenerApplicationSpec extends Specification {
 
     @Autowired
     ApplicationContext context
 
     def "should start the application"() {
-        expect:
+        expect: "context is present"
         context
     }
 }
