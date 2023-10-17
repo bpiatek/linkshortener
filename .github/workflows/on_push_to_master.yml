@@ -4,9 +4,7 @@ on:
   push:
     branches:
       - master
-  pull_request:
-    branches:
-      - master
+
 
 jobs:
   build:
@@ -22,6 +20,14 @@ jobs:
         with:
           java-version: '21'
           distribution: 'temurin'
+
+      - name: Increment version
+        run: |
+          ./mvnw build-helper:parse-version versions:set -DnewVersion=\${parsedVersion.majorVersion}.\${parsedVersion.minorVersion}.\${parsedVersion.nextIncrementalVersion} versions:commit
+          git config user.name my-bot-user
+          git add .
+          git commit -m "updated version in pom.xml"
+          git push
 
       - name: Cache SonarCloud packages
         uses: actions/cache@v3
