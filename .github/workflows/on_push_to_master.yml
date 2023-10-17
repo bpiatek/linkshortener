@@ -5,7 +5,6 @@ on:
     branches:
       - master
 
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -20,15 +19,6 @@ jobs:
         with:
           java-version: '21'
           distribution: 'temurin'
-
-      - name: Increment version
-        run: |
-          ./mvnw build-helper:parse-version versions:set -DnewVersion=\${parsedVersion.majorVersion}.\${parsedVersion.minorVersion}.\${parsedVersion.nextIncrementalVersion} versions:commit
-          git config user.name my-bot-user
-          git config user.email my-bot-user@email.com
-          git add .
-          git commit -m "updated version in pom.xml"
-          git push
 
       - name: Cache SonarCloud packages
         uses: actions/cache@v3
@@ -50,3 +40,12 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=bpiatek_linkshortener
+
+      - name: Increment version
+        run: |
+          ./mvnw build-helper:parse-version versions:set -DnewVersion=\${parsedVersion.majorVersion}.\${parsedVersion.minorVersion}.\${parsedVersion.nextIncrementalVersion} versions:commit
+          git config user.name my-bot-user
+          git config user.email my-bot-user@email.com
+          git add .
+          git commit -m "updated version in pom.xml"
+          git push
