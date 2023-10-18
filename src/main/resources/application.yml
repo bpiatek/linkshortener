@@ -1,0 +1,8 @@
+spring:
+  datasource:
+    url: ENC(IMqNPh8tNRKALlxxszXlGeB2xriMI54I4Ie41SZcFq2EoA6CYHYVm+UQ4Pa0KKmXF2piEIFvav1xkuMdKokr2hHTxhoBEzK9N2To2TGaYvM=)
+    username: ENC(5IUvgRhF+cy/BY6vTl+uVXD5ue6XWoEuJkbeFU56MKjJMrIOHufOpVZsx1AF2i6g)
+    password: ENC(W7nd/+lyqqZek/Qs7st9vb1i0AqHS3RzBvop9kByLvUZHzmZZ8FzHthl4Z8zGEeV)
+    driver-class-name: org.postgresql.Driver
+  jooq:
+    sql-dialect: postgres
