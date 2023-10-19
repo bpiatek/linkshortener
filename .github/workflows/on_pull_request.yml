@@ -43,12 +43,11 @@ jobs:
             ${{ runner.os }}-maven-
 
       - name: SonarCloud scan
-        uses: SonarSource/sonarcloud-github-action@v2.0.2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        with:
-          args:
-            -Dsonar.projectKey=bpiatek_linkshortener 
-            -Dsonar.organization=bpiatek
-            -Djasypt.encryptor.password=${{ secrets.JASYPT_PASS }}
+        run: |
+          mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar 
+          -Dsonar.projectKey=bpiatek_linkshortener 
+          -Dsonar.organization=bpiatek
+          -Djasypt.encryptor.password=${{ secrets.JASYPT_PASS }} 
