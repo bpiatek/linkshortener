@@ -95,6 +95,11 @@ jobs:
             ./stop.sh
             ./clean_up_new.sh
 
+      - name: Get into folder
+        run: |
+          pwd
+          tree
+
       - name: Copy app to VPS
         uses: appleboy/scp-action@v0.1.4
         with:
@@ -102,7 +107,7 @@ jobs:
           username: ${{ secrets.MIKRUS_USERNAME }}
           password: ${{ secrets.MIKRUS_PASS }}
           port: ${{ secrets.MIKRUS_PORT }}
-          source: "target/link-shortener-*.jar"
+          source: "./target/link-shortener-*.jar"
           target: "/root/apps/link-app/linkshortener"
 
       - name: Stop app and clean up
