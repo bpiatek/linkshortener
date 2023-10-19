@@ -83,17 +83,35 @@ jobs:
     needs: increment-version
     runs-on: ubuntu-latest
     steps:
-      - name: SSH Remote Commands
-        uses: appleboy/ssh-action@v1.0.0
+      - name: Stop app and clean up
+        uses: fifsky/ssh-action@v0.0.6
+        with:
+          host: ${{ secrets.MIKRUS_HOST }}
+          user: ${{ secrets.MIKRUS_USERNAME }}
+          pass: ${{ secrets.MIKRUS_PASS }}
+          port: ${{ secrets.MIKRUS_PORT }}
+          script: |
+            cd /root/apps/link-app
+            ./stop.sh
+            ./clean_up_new.sh
+
+      - name: Copy app to VPS
+        uses: appleboy/scp-action@v0.1.4
         with:
           host: ${{ secrets.MIKRUS_HOST }}
           username: ${{ secrets.MIKRUS_USERNAME }}
           password: ${{ secrets.MIKRUS_PASS }}
           port: ${{ secrets.MIKRUS_PORT }}
+          source: "target/link-shortener-*.jar"
+          target: "/root/apps/link-app/linkshortener"
+
+      - name: Stop app and clean up
+        uses: fifsky/ssh-action@v0.0.6
+        with:
+          host: ${{ secrets.MIKRUS_HOST }}
+          user: ${{ secrets.MIKRUS_USERNAME }}
+          pass: ${{ secrets.MIKRUS_PASS }}
+          port: ${{ secrets.MIKRUS_PORT }}
           script: |
             cd /root/apps/link-app
-            ./stop.sh
-            ./clean_up_and_setup.sh
             ./start_silent.sh
-            
-            
