@@ -5,6 +5,11 @@ on:
     branches:
       - master
 
+  workflow_dispatch:
+
+permissions:
+  pull-requests: write
+
 jobs:
   run-tests:
     runs-on: ubuntu-latest
