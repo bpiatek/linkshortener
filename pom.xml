@@ -17,8 +17,6 @@
 
     <properties>
         <java.version>21</java.version>
-        <sonar.organization>bpiatek</sonar.organization>
-        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
         <jasypt.version>3.0.5</jasypt.version>
         <spock.version>2.4-M1-groovy-4.0</spock.version>
         <spock-reports.version>2.5.1-groovy-4.0</spock-reports.version>

@@ -1,10 +1,16 @@
-name: Link Shortener - run tests
+name: SonarCloud analysis
 
 on:
   pull_request:
     types:
       - opened
       - reopened
+      - synchronize
+
+  workflow_dispatch:
+
+permissions:
+  pull-requests: read
 
 jobs:
   build:
@@ -37,7 +43,12 @@ jobs:
             ${{ runner.os }}-maven-
 
       - name: SonarCloud scan
+        uses: SonarSource/sonarcloud-github-action@v2.0.2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=bpiatek_linkshortener -Djasypt.encryptor.password=${{ secrets.JASYPT_PASS }}
+        with:
+          args:
+            -Dsonar.projectKey=bpiatek_linkshortener 
+            -Dsonar.organization=bpiatek
+            -Djasypt.encryptor.password=${{ secrets.JASYPT_PASS }}
