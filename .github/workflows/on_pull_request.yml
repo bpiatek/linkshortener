@@ -13,7 +13,7 @@ permissions:
   pull-requests: read
 
 jobs:
-  build:
+  sonarcloud:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -50,4 +50,5 @@ jobs:
           mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
           -Dsonar.projectKey=bpiatek_linkshortener \
           -Dsonar.organization=bpiatek \
+          -Dsonar.host.url=https://sonarcloud.io \
           -Djasypt.encryptor.password=${{ secrets.JASYPT_PASS }} 
