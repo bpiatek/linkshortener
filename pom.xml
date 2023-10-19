@@ -11,7 +11,7 @@
 
     <groupId>pl.bpiatek</groupId>
     <artifactId>link-shortener</artifactId>
-    <version>0.0.9</version>
+    <version>0.0.10</version>
     <name>link-shortener</name>
     <description>link-shortener</description>
 
