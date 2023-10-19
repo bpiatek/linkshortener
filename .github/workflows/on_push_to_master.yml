@@ -1,4 +1,4 @@
-name: Link Shortener - run tests
+name: Sonar qube analysis and version increment
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - master
 
 jobs:
-  build:
+  run-tests:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -20,13 +20,6 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
 
-      - name: Cache SonarCloud packages
-        uses: actions/cache@v3
-        with:
-          path: ~/.sonar/cache
-          key: ${{ runner.os }}-sonar
-          restore-keys: ${{ runner.os }}-sonar
-
       - name: Cache local Maven repository
         uses: actions/cache@v3
         with:
@@ -35,16 +28,34 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
+      - name: run tests
+        run: mvn -B verify --file pom.xml -Djasypt.encryptor.password=${{ secrets.JASYPT_PASS }}
+
+      - name: Cache SonarCloud packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+
       - name: SonarCloud scan
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
+          mvn org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
           -Dsonar.projectKey=bpiatek_linkshortener \
           -Dsonar.organization=bpiatek \
           -Dsonar.host.url=https://sonarcloud.io \
-          -Djasypt.encryptor.password=${{ secrets.JASYPT_PASS }} 
+
+  increment-version:
+    needs: run-tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.1.0
+        with:
+          fetch-depth: 0
 
       - name: Increment version
         run: |
