@@ -90,7 +90,7 @@ jobs:
           user: ${{ secrets.MIKRUS_USERNAME }}
           pass: ${{ secrets.MIKRUS_PASS }}
           port: ${{ secrets.MIKRUS_PORT }}
-          script: |
+          command: |
             cd /root/apps/link-app
             ./stop.sh
             ./clean_up_new.sh
@@ -112,6 +112,6 @@ jobs:
           user: ${{ secrets.MIKRUS_USERNAME }}
           pass: ${{ secrets.MIKRUS_PASS }}
           port: ${{ secrets.MIKRUS_PORT }}
-          script: |
+          command: |
             cd /root/apps/link-app
             ./start_silent.sh
