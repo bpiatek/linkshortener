@@ -78,3 +78,22 @@ jobs:
           git add .
           git commit -m "updated version in pom.xml"
           git push
+
+  deploy-to-vps:
+    needs: increment-version
+    runs-on: ubuntu-latest
+    steps:
+      - name: SSH Remote Commands
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.MIKRUS_HOST }}
+          username: ${{ secrets.MIKRUS_USERNAME }}
+          password: ${{ secrets.MIKRUS_PASS }}
+          port: ${{ secrets.MIKRUS_PORT }}
+          script: |
+            cd /root/apps/link-app
+            ./stop.sh
+            ./clean_up_and_setup.sh
+            ./start_silent.sh
+            
+            
