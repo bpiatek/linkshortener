@@ -83,6 +83,28 @@ jobs:
     needs: increment-version
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4.1.0
+        with:
+          fetch-depth: 0
+
+      - name: Setup Java 21
+        uses: actions/setup-java@v3
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Cache local Maven repository
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+      - name: run tests
+        run: mvn -B package --file pom.xml -DskipTests -Djasypt.encryptor.password=${{ secrets.JASYPT_PASS }}
+
       - name: Stop app and clean up
         uses: fifsky/ssh-action@v0.0.6
         with:
@@ -98,6 +120,7 @@ jobs:
       - name: Get into folder
         run: |
           pwd
+          ls -la
           tree
 
       - name: Copy app to VPS
@@ -107,7 +130,7 @@ jobs:
           username: ${{ secrets.MIKRUS_USERNAME }}
           password: ${{ secrets.MIKRUS_PASS }}
           port: ${{ secrets.MIKRUS_PORT }}
-          source: "./target/link-shortener-*.jar"
+          source: "target/link-shortener-*.jar"
           target: "/root/apps/link-app/linkshortener"
 
       - name: Stop app and clean up
