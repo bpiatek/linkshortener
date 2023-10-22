@@ -102,7 +102,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
-      - name: run tests
+      - name: Package app to jar
         run: mvn -B package --file pom.xml -DskipTests -Djasypt.encryptor.password=${{ secrets.JASYPT_PASS }}
 
       - name: Stop app and clean up
@@ -115,13 +115,7 @@ jobs:
           command: |
             cd /root/apps/link-app
             ./stop.sh
-            ./clean_up_new.sh
-
-      - name: Get into folder
-        run: |
-          pwd
-          ls -la
-          tree
+            ./clean_up.sh
 
       - name: Copy app to VPS
         uses: appleboy/scp-action@v0.1.4
@@ -133,7 +127,7 @@ jobs:
           source: "target/link-shortener-*.jar"
           target: "/root/apps/link-app/linkshortener"
 
-      - name: Stop app and clean up
+      - name: Start application
         uses: fifsky/ssh-action@v0.0.6
         with:
           host: ${{ secrets.MIKRUS_HOST }}
@@ -142,4 +136,5 @@ jobs:
           port: ${{ secrets.MIKRUS_PORT }}
           command: |
             cd /root/apps/link-app
+            ./post_copy.sh
             ./start_silent.sh
