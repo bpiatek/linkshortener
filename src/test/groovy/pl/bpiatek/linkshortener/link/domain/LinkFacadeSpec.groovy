@@ -3,14 +3,14 @@ package pl.bpiatek.linkshortener.link.domain
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.testcontainers.spock.Testcontainers
-import pl.bpiatek.linkshortener.PostgresqlTestcointainerSpec
+import pl.bpiatek.linkshortener.PostgresqlTestcontainerSpec
 import pl.bpiatek.linkshortener.link.dto.LinkShortenRequest
 /**
  * Created by Bartosz Piatek on 22/10/2023
  */
 @SpringBootTest
 @Testcontainers
-class LinkFacadeSpec extends PostgresqlTestcointainerSpec {
+class LinkFacadeSpec extends PostgresqlTestcontainerSpec {
 
     @Autowired
     LinkFacade linkFacade

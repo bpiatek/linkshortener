@@ -10,14 +10,14 @@ import spock.lang.Specification
  * Created by Bartosz Piatek on 22/10/2023
  */
 @Testcontainers
-class PostgresqlTestcointainerSpec extends Specification{
+class PostgresqlTestcontainerSpec extends Specification{
 
     static PostgreSQLContainer postgres
 
     static PostgreSQLContainer<?> getContainer() {
         if (postgres == null) {
             postgres =
-                    new PostgreSQLContainer("postgres:15-alpine")
+                    new PostgreSQLContainer("postgres:15.2-alpine")
                             .withDatabaseName("linkshortener")
                             .withUsername("postgres")
                             .withPassword("postgres")

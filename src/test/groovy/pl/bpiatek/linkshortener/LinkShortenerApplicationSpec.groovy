@@ -9,7 +9,7 @@ import org.testcontainers.spock.Testcontainers
  */
 @SpringBootTest
 @Testcontainers
-class LinkShortenerApplicationSpec extends PostgresqlTestcointainerSpec {
+class LinkShortenerApplicationSpec extends PostgresqlTestcontainerSpec {
 
     @Autowired
     ApplicationContext context
