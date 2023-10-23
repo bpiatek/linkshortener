@@ -23,6 +23,7 @@
         <spock.version>2.4-M1-groovy-4.0</spock.version>
         <spock-reports.version>2.5.1-groovy-4.0</spock-reports.version>
         <jooq.version>3.18.4</jooq.version>
+        <rest-assured.version>5.3.1</rest-assured.version>
     </properties>
 
     <dependencies>
@@ -33,6 +34,10 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-jooq</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <dependency>
             <groupId>org.jooq</groupId>
@@ -93,7 +98,35 @@
             <version>${spock-reports.version}</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>spock</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>postgresql</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.testcontainers</groupId>
+                <artifactId>testcontainers-bom</artifactId>
+                <version>${testcontainers.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <build>
         <plugins>
@@ -146,6 +179,38 @@
                 <groupId>com.github.ulisesbocchio</groupId>
                 <artifactId>jasypt-maven-plugin</artifactId>
                 <version>${jasypt.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.testcontainers</groupId>
+                <artifactId>testcontainers-jooq-codegen-maven-plugin</artifactId>
+                <version>0.0.3</version>
+                <executions>
+                    <execution>
+                        <id>generate-jooq-sources</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <phase>generate-sources</phase>
+                        <configuration>
+                            <database>
+                                <type>POSTGRES</type>
+                            </database>
+                            <flyway/>
+                            <jooq>
+                                <generator>
+                                    <database>
+                                        <includes>.*</includes>
+                                        <inputSchema>public</inputSchema>
+                                    </database>
+                                    <target>
+                                        <packageName>pl.bpiatek.linkshortener.jooq</packageName>
+                                        <directory>target/generated-sources/jooq</directory>
+                                    </target>
+                                </generator>
+                            </jooq>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
