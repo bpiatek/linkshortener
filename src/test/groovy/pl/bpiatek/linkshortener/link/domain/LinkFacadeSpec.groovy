@@ -15,14 +15,15 @@ class LinkFacadeSpec extends PostgresqlTestcontainerSpec {
     @Autowired
     LinkFacade linkFacade
 
-    def "should create a link"() {
-        given:
-        var request = new LinkShortenRequest("https://google.com")
-        when:
-        var link = linkFacade.createLink(request)
-        then:
-        link.originalLink() == "https://google.com"
-        link.shortLink() == null
+    def "should shorten link"() {
+        given: "request data is passed"
+            def request = new LinkShortenRequest("https://google.com")
 
+        when: "method is called"
+            def link = linkFacade.createLink(request)
+
+        then: "result is expected"
+            link.originalLink() == "https://google.com"
+            link.shortLink() == null
     }
 }
