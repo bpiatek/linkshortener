@@ -3,8 +3,7 @@ package pl.bpiatek.linkshortener.link.api
 import io.restassured.RestAssured
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.server.LocalServerPort
-import org.springframework.http.HttpStatus
-import pl.bpiatek.linkshortener.PostgresqlTestcontainerSpec
+import pl.bpiatek.linkshortener.PostgresqlTestContainerSpec
 import pl.bpiatek.linkshortener.link.dto.LinkShortenRequest
 
 import static io.restassured.RestAssured.given
@@ -17,7 +16,7 @@ import static org.springframework.http.HttpStatus.CREATED
  * Created by Bartosz Piatek on 23/10/2023
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class LinkControllerSpec extends PostgresqlTestcontainerSpec {
+class LinkControllerSpec extends PostgresqlTestContainerSpec {
 
     @LocalServerPort
     int port

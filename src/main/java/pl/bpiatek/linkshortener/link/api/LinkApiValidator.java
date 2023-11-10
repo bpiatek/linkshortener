@@ -10,6 +10,7 @@ import pl.bpiatek.linkshortener.link.dto.LinkShortenRequest;
  */
 @Component
 class LinkApiValidator implements Validator {
+
     @Override
     public boolean supports(Class<?> clazz) {
         return LinkShortenRequest.class.isAssignableFrom(clazz);

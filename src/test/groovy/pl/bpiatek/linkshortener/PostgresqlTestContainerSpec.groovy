@@ -10,7 +10,7 @@ import spock.lang.Specification
  * Created by Bartosz Piatek on 22/10/2023
  */
 @Testcontainers
-class PostgresqlTestcontainerSpec extends Specification{
+class PostgresqlTestContainerSpec extends Specification{
 
     static PostgreSQLContainer postgres
 

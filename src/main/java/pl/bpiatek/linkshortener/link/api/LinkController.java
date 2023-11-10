@@ -22,6 +22,7 @@ class LinkController {
 
     private final LinkFacade linkFacade;
     private final LinkApiValidator validator;
+    private final LinkApiMapper linkApiMapper;
 
     @PostMapping
     ResponseEntity<?> shortenLink(@RequestBody LinkShortenRequest request, BindingResult result) {
@@ -29,6 +30,6 @@ class LinkController {
         if (result.hasErrors()) {
             return ResponseEntity.badRequest().body(result.getAllErrors());
         }
-        return new ResponseEntity<>(linkFacade.createLink(request), CREATED);
+        return new ResponseEntity<>(linkFacade.createLink(linkApiMapper.map(request)), CREATED);
     }
 }
