@@ -14,7 +14,9 @@ class LinkConfiguration {
 
     @Bean
     LinkFacade linkFacade(LinkRepository linkRepository) {
-        var linkCreator = new LinkCreator();
+        var linkGenerator = new ShortenedLinkGenerator();
+        var originalLinkValidator = new OriginalLinkValidator();
+        var linkCreator = new LinkCreator(originalLinkValidator, linkGenerator);
         return new LinkFacade(linkRepository, linkCreator);
     }
 

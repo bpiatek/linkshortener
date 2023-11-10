@@ -27,7 +27,7 @@ class LinkRepository {
                 .execute();
     }
 
-    LocalDate calculateExpirationDate(Link link) {
+    private LocalDate calculateExpirationDate(Link link) {
         if(link.getExpirationDate() == null) {
             return LocalDate.now(clock).plusDays(7);
         }
